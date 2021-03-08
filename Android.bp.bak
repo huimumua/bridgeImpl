@@ -1,0 +1,18 @@
+cc_binary {
+	name: "libiqi_bridge",
+
+	srcs: [
+		"IQPortingMasterBridge_Android.cpp"
+	],
+
+	shared_libs: [
+         "libutils",
+         "libcutils",
+         "liblog",
+         "libbinder",
+         "libhidlbase",
+         "libhidltransport",
+         "libhardware",
+         "vendor.tct.iqibridge@1.0",
+     ],
+}

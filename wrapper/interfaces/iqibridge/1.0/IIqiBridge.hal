@@ -1,0 +1,28 @@
+/*
+* Copyright (c) 2020 The Linux Foundation. All rights reserved.
+* Created by TCT for AT&T IQI
+* 
+*/
+
+package vendor.tct.iqibridge@1.0;
+
+import types;
+import IIqiBridgeEventCallback;
+
+/**
+*Interface for AT&T IQI bridge.
+*/
+
+interface IIqiBridge {
+
+	tryOpen(IIqiBridgeEventCallback cb) generates(int64_t rVal);
+
+	tryRead(uint64_t rLen) generates(int64_t rVal, vec<uint8_t> outBuffer);
+
+	tryWrite(vec<uint8_t> inBuffer,uint64_t wLen) generates(int64_t rVal);
+
+	tryClose() generates(int64_t result);
+
+	setLoggingEnabled(bool loggingEnabled);
+
+};

@@ -1,0 +1,5 @@
+package vendor.tct.iqibridge@1.0;
+
+interface IIqiBridgeEventCallback {
+	sendMsgToClient(int64_t eventId, vec<uint8_t> outBuffer, int64_t bufferLen);
+};

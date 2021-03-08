@@ -1,0 +1,2 @@
+
+libiqi_bridge.iqi.so
