@@ -1,0 +1,22 @@
+#! /bin/bash
+
+PACKAGE=vendor.tct.iqibridge@1.0
+LOC=vendor/tct/proprietary/system/IQIBridge/interfaces/iqibridge/1.0/default/
+
+## compile hal
+hidl-gen -Landroidbp -rvendor.tct:vendor/tct/proprietary/system/IQIBridge/interfaces -randroid.hidl:system/libhidl/transport $PACKAGE
+
+LOC=vendor/tct/proprietary/system/IQIBridge/interfaces/iqibridge/1.0/default/
+hidl-gen -o $LOC -Landroidbp-impl -rvendor.tct:vendor/tct/proprietary/system/IQIBridge/interfaces -randroid.hidl:system/libhidl/transport $PACKAGE
+
+## IqiBridge.h
+hidl-gen -o $LOC -Lc++-headers -rvendor.tct:vendor/tct/proprietary/system/IQIBridge/interfaces -randroid.hidl:system/libhidl/transport $PACKAGE
+
+## IqiBridge.cpp
+hidl-gen -o $LOC -Lc++-sources -rvendor.tct:vendor/tct/proprietary/system/IQIBridge/interfaces -randroid.hidl:system/libhidl/transport $PACKAGE
+
+## IqiBridge.cpp, IqiBridge.h
+hidl-gen -o $LOC -Lc++-impl -rvendor.tct:vendor/tct/proprietary/system/IQIBridge/interfaces -randroid.hidl:system/libhidl/transport $PACKAGE
+
+## binder impl
+hidl-gen -o $LOC -Lc++ -rvendor.tct:vendor/tct/proprietary/system/IQIBridge/interfaces -randroid.hidl:system/libhidl/transport $PACKAGE
