@@ -1,0 +1,101 @@
+# IQI Domain
+
+# Usually in installd.te
+# Required for installd to create IQI service's /data/data directory
+allow installd attiqi_app_data_file:dir { create_dir_perms relabelfrom relabelto };
+allow installd attiqi_app_data_file:lnk_file { create_file_perms relabelfrom relabelto };
+allow installd attiqi_app_data_file:{ file sock_file fifo_file } { getattr unlink rename relabelfrom relabelto setattr };
+
+# Usually in system_server.te
+allow system_server { attiqi_app_data_file }:dir { getattr read search };
+allow system_server { attiqi_app_data_file }:file { getattr read write };
+allow system_server attiqi_app_data_file:dir create_dir_perms;
+allow system_server attiqi_app_data_file:file create_file_perms;
+
+#typeattribute attiqi_app coredomain;
+type attiqi_app, domain, mlstrustedsubject, coredomain;
+
+
+# Read and write /data/data subdirectory for myself.
+allow attiqi_app attiqi_app_data_file:dir create_dir_perms;
+allow attiqi_app attiqi_app_data_file:{ file lnk_file } create_file_perms;
+
+# Include all appdomain rules
+app_domain(attiqi_app)
+# Access the network.
+net_domain(attiqi_app)
+# Access bluetooth.
+bluetooth_domain(attiqi_app)
+
+# Access /proc/<PID>/stat files
+# This is no longer permitted since Android Pie
+# r_dir_file(attiqi_app, domain)
+
+# access the mac address
+allowxperm attiqi_app self:udp_socket ioctl SIOCGIFHWADDR;
+
+# dlopen libs in our data folder
+allow attiqi_app app_data_file:file execute;
+
+# TODO: switch to meminfo service
+allow attiqi_app proc_meminfo:file r_file_perms;
+
+# Access to vold-mounted storage for measuring free space
+allow attiqi_app mnt_media_rw_file:dir search;
+
+# Find system services
+allow attiqi_app activity_service:service_manager find;
+allow attiqi_app app_api_service:service_manager find;
+allow attiqi_app audioserver_service:service_manager find;
+allow attiqi_app connectivity_service:service_manager find;
+allow attiqi_app display_service:service_manager find;
+allow attiqi_app mediaserver_service:service_manager find;
+allow attiqi_app mediacodec_service:service_manager find;
+allow attiqi_app mediametrics_service:service_manager find;
+allow attiqi_app mount_service:service_manager find;
+allow attiqi_app notification_service:service_manager find;
+allow attiqi_app persistent_data_block_service:service_manager find;
+allow attiqi_app radio_service:service_manager find;
+allow attiqi_app servicemanager:service_manager list;
+allow attiqi_app surfaceflinger_service:service_manager find;
+allow attiqi_app system_server_service:service_manager find;
+allow attiqi_app system_api_service:service_manager find;
+allow attiqi_app system_app_data_file:dir search;
+allow attiqi_app iqi_service:dir search;
+allow attiqi_app user_service:service_manager find;
+allow attiqi_app gpu_service:service_manager find;
+allow attiqi_app gpuservice:binder call;
+
+# Read and write system app data files passed over Binder.
+allow attiqi_app system_app_data_file:file { read write getattr };
+
+# Read /proc data for apps.
+allow attiqi_app proc:dir search;
+allow attiqi_app appdomain:dir r_dir_perms;
+allow attiqi_app domain:process getattr;
+
+r_dir_file(attiqi_app, proc_qtaguid_stat)
+allow attiqi_app proc_net:dir search;
+
+# access /proc/meminfo
+r_dir_file(attiqi_app, proc_meminfo)
+
+create_pty(attiqi_app)
+
+# The IQI binder service
+
+# Usually in system_service.te
+#Allow the system server to add and find the iqi service
+allow system_server iqi_service:service_manager { add find };
+
+# Usually in domain specific TE files
+#Allow the following domains to find the iqi service
+allow radio iqi_service:service_manager find;
+allow system_app iqi_service:service_manager find;
+allow priv_app iqi_service:service_manager find;
+
+allow attiqi_app init:unix_stream_socket connectto;
+allow attiqi_app property_socket:sock_file write;
+
+allow attiqi_app hal_iqibridge_hwservice:hwservice_manager { find };
+allow attiqi_app hal_iqibridge_default:binder { call transfer };

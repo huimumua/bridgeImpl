@@ -1,0 +1,4 @@
+
+ro.vendor.target.iqi u:object_r:exported3_default_prop:s0 exact bool
+# add for HW12 metric
+vendor.system_server.died u:object_r:debug_prop:s0

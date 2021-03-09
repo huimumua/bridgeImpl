@@ -1,0 +1,3 @@
+
+# domain for hal iqibridge hwservice
+type hal_iqibridge_hwservice, hwservice_manager_type;

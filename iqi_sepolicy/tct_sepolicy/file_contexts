@@ -1,0 +1,2 @@
+
+/(vendor|system/vendor)/bin/hw/vendor\.tct\.iqibridge@1\.0-service		u:object_r:hal_iqibridge_default_exec:s0

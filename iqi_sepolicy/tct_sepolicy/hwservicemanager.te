@@ -1,0 +1,5 @@
+
+allow hwservicemanager hal_iqibridge_default:process getattr;
+allow hwservicemanager hal_iqibridge_default:binder { transfer call };
+allow hwservicemanager hal_iqibridge_default:file r_file_perms;
+allow hwservicemanager hal_iqibridge_default:dir search;

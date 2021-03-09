@@ -1,0 +1,16 @@
+
+#typeattribute hal_iqibridge_default domain;
+type hal_iqibridge_default, domain;
+
+type hal_iqibridge_default_exec, exec_type, vendor_file_type, file_type;
+
+allow hal_iqibridge_default hwservicemanager:binder { transfer call };
+allow hal_iqibridge_default hal_iqibridge_hwservice:binder call;
+allow hal_iqibridge_default hal_iqibridge_hwservice:hwservice_manager { add find };
+allow hal_iqibridge_default hidl_base_hwservice:hwservice_manager add;
+
+allow hal_iqibridge_default hwservicemanager_prop:file { read open getattr };
+allow hal_iqibridge_default attiqi_app:binder { call };
+allow hal_iqibridge_default ccci_device:chr_file { open read write };
+
+init_daemon_domain(hal_iqibridge_default)

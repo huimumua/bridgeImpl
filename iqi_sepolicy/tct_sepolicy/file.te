@@ -1,0 +1,4 @@
+
+# Usually in file.te
+# File type for com.att.iqi data files and allow rules for system installd and system_server
+type attiqi_app_data_file, file_type, data_file_type, core_data_file_type;
